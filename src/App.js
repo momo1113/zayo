@@ -1,4 +1,5 @@
 import React from 'react';
+import checkArea from './checkArea';
 
 
 class App extends React.Component{
@@ -7,46 +8,46 @@ class App extends React.Component{
         super(props)
         this.state = {
             shape : "",
-            length:  "",
+            length: "",
             width: "",
-            a:  "",
+            a: "",
             b: "",
             c: "",
-            radius :"", 
-            shapeEntered:false,
+            radius: "", 
+            shapeEntered: false,
             showResult: false,
-            result:"",
+            result: "",
         }
 
         this.getResult = this.getResult.bind(this);
     }
 
     getResult(e){
+      
       e.preventDefault();
       this.setState({showResult: true});
-      if(this.state.shape.toLocaleLowerCase() === 'square'){
-          let area = parseInt(this.state.length) * parseInt(this.state.length);
-          let output = `name:square, dimension:${this.state.length} x ${this.state.length}, area: ${area}`;
-          this.setState({result: output});
-      }
-      if(this.state.shape.toLocaleLowerCase() === 'rectangle'){
-        let area = parseInt(this.state.length) * parseInt(this.state.width);
-        let output = `name:square, dimension:${this.state.length} x ${this.state.length}, area: ${area}`;
-        this.setState({result: output});
-      } 
+      let result = ""; 
 
+      if(this.state.shape.toLocaleLowerCase() === 'square'){
+          result = checkArea(this.state.shape, this.state.length);
+      }
+      
+      
+      if(this.state.shape.toLocaleLowerCase() === 'rectangle'){
+        result = checkArea(this.state.shape, this.state.length,this.state.width);
+      }
+     
+     
       if(this.state.shape.toLocaleLowerCase() === 'triangle'){
-        const perimeter = (parseInt(this.state.a) + parseInt(this.state.b) + parseInt(this.state.c))/2;
-        const area =  Math.sqrt(perimeter*((perimeter-this.state.a)*(perimeter-this.state.b)*(perimeter-this.state.c)));   
-        let output = `name:square, dimension: a${this.state.a} x b${this.state.b} x b${this.state.c}, area: ${area}`;
-        this.setState({result: output});
-      } 
+        result = checkArea(this.state.shape, this.state.a,this.state.b, this.state.c);
+      }
+      
 
       if(this.state.shape.toLocaleLowerCase() === 'circle'){
-        let area = parseInt(this.state.radius) * parseInt(this.state.radius) * Math.PI;
-        let output = `name:square, dimension:${this.state.radius}, area: ${area}`;
-        this.setState({result: output});
-      } 
+        result = checkArea(this.state.shape, this.state.radius);
+      }
+     
+      this.setState({result: result});
   }
 
     render(){
